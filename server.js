@@ -6,9 +6,7 @@ const app = express();
 
 // rest api
 app.get('/', (req, res) => {
-    res.send({
-        message: "Welcome to Ecommerce App"
-    })
+    res.send("<h1>Welcome to Ecommerce App</h1>");
 })
 
 // PORT
