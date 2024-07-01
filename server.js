@@ -1,5 +1,11 @@
 import express from "express"
 import colors from "colors"
+import dotenv from "dotenv";
+
+// configure env
+dotenv.config();
+
+
 
 // rest object
 const app = express();
@@ -10,9 +16,9 @@ app.get('/', (req, res) => {
 })
 
 // PORT
-const PORT = 8080;
+const PORT = process.env.PORT || 8080; // default 8080
 
 // run listen
 app.listen(PORT,()=> {
-    console.log(`Server Running on ${PORT}`.bgCyan.white);
+    console.log(`Server Running on ${process.env.DEV_MODE} mode on ${PORT}`.bgCyan.white);
 })
