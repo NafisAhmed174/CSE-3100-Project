@@ -104,3 +104,9 @@ export const loginController = async (req, res) => {
         })
     }
 };
+
+// test controller
+
+export const testController = (req, res) => {
+    console.log("protected route");
+};
