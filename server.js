@@ -1,9 +1,9 @@
-import express from "express"
-import colors from "colors"
+import express from "express";
+import colors from "colors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDb from "./config/db.js";
-import authRoutes from "./routes/authRoute.js"
+import authRoutes from "./routes/authRoute.js";
 
 
 // configure env
@@ -17,7 +17,7 @@ connectDb();
 const app = express();
 
 // middle wares
-app.use(express.json);
+app.use(express.json());
 app.use(morgan('dev'));
 
 // routes
