@@ -16,8 +16,6 @@ function App() {
       <Route path='*' element = {<PageNotFound/>}/>
 
     </Routes>
-      
-        <h1>Ecommerce App</h1>
     </>
   );
 }
