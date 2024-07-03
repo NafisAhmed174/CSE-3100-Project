@@ -3,7 +3,9 @@ import React from 'react'
 const Footer = () => {
   return (
     <div className = "bg-dark text-light p-3">
-        <h1 className='text-center'>Footer comp</h1>
+        <h4 className='text-center'>
+            All Rights Reserved &copy; Nafis Ahmed
+        </h4>
     </div>
   )
 }
