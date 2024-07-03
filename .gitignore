@@ -1,2 +1,5 @@
 #secret
 .env
+
+#dependency
+node_modules/
