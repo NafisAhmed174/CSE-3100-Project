@@ -27,6 +27,15 @@
   font-style: normal;
 } */
 
+/* text */
+.text-success {
+  color: green;
+}
+
+.text-fail{
+  color: red;
+}
+
 /* Navbar css */
 .navbar{
   font-family: "Poppins", sans-serif;
@@ -121,8 +130,17 @@
   text-decoration: none;
   padding: 10px;
   margin-top: 10px;
+  /* background-color: rgb(212,227,195); */
+  background-color: lightgreen;
+  border-radius: 10px!important;
 }
 .pnf-btn:hover {
   background-color: black;
   color: white;
+}
+
+/* image */
+img {
+  max-width: 100%;
+  height: auto;
 }
