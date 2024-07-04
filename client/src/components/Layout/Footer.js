@@ -10,7 +10,7 @@ const Footer = () => {
       | 
       <Link to = "/policy">Privacy and Policy</Link>
       </p>
-      <h4 className="text-center">&copy; 2024 MobileShop BD Ltd. |All Rights Reserved</h4>
+      <h4 className="text-center">&copy; 2024 MobileShop BD Ltd. | All Rights Reserved</h4>
     </div>
   );
 };
