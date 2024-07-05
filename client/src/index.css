@@ -117,7 +117,7 @@
 /* page not found */
 .pnf {
   display: flex;
-  min-height: 70vh;
+  min-height: 65vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -151,4 +151,13 @@
 img {
   max-width: 30%;
   height: auto;
+}
+
+.content {
+  flex: 1;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

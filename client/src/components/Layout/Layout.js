@@ -4,13 +4,12 @@ import Footer from './Footer';
 
 const Layout = ({children}) => {
   return (
-    <div>
+    <div className='layout'>
         <Header/>
-        <main style={ {minHeight: '70vh'} }>
+        <main className='content' style={ { minHeight: '70vh'} }>
             {children}
         </main>
-        <Footer>
-        </Footer>
+        <Footer/>
     </div>
   )
 }
