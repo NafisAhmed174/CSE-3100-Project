@@ -7,6 +7,11 @@ const Header = () => {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <Link to = "/" className="navbar-brand">
+            <img
+              src="/images/logo.png"
+              alt="Logo"
+              style={{ height: "40px", marginRight: "10px" }}
+            />
             <span className="logo-primary">Mobile</span>
             <span className="logo-secondary">Shop</span>
           </Link>
