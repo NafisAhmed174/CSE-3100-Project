@@ -7,7 +7,7 @@ import { FaPhone } from "react-icons/fa6";
 
 const Contact = () => {
   return (
-    <Layout>
+    <Layout title={'Contact us'}>
       <div className="contactUs">
         <div className="title">
           <h2>Get in touch</h2>
