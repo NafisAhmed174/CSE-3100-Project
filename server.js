@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDb from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
+import cors from "cors";
 
 
 // configure env
