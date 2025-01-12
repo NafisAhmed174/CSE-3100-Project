@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import Layout from "../../components/Layout/Layout";
-import toast from "react-hot-toast";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 import "../../styles/AuthStyles.css";
+import { useAuth } from "../../context/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [auth, setAuth] = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,14 +19,19 @@ const Login = () => {
         password,
       });
       if (res.data.success) {
-        toast.success(res.data.message);
+        setAuth({
+          ...auth,
+          isAuth: true,
+          user: res.data.user,
+          token: res.data.token,
+        })
+        localStorage.setItem('auth', JSON.stringify(res.data));
         navigate("/");
       } else {
-        toast.error(res.data.message);
+        console.log(res.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
     }
   };
 
