@@ -6,26 +6,20 @@ import { useNavigate } from "react-router-dom"
 import "../../styles/AuthStyles.css";
 
 const Login = () => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/v1/auth/register", {
-        name,
+      const res = await axios.post("/api/v1/auth/login", {
         email,
         password,
-        phone,
-        address,
       });
       if (res.data.success) {
         toast.success(res.data.message);
-        navigate("/login");
+        navigate("/");
       } else {
         toast.error(res.data.message);
       }
@@ -40,17 +34,6 @@ const Login = () => {
       <div className="form-container">
         <h4 className="title"> Login   page</h4>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="form-control"
-              id="exampleInputName"
-              placeholder="Enter your name"
-              required
-            />
-          </div>
 
           <div className="mb-3">
             <input
@@ -72,28 +55,6 @@ const Login = () => {
               className="form-control"
               id="exampleInputPassword"
               placeholder="Enter your password"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="form-control"
-              id="exampleInputPhone"
-              placeholder="Enter your phone no"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="form-control"
-              id="exampleInputAddress"
-              placeholder="Enter your address"
               required
             />
           </div>
