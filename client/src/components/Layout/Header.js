@@ -2,14 +2,14 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 const Header = () => {
-  const [auth, setAuth ] = useAuth();
-  const handleLogout = () => { 
+  const [auth, setAuth] = useAuth();
+  const handleLogout = () => {
     setAuth({
       ...auth,
       user: null,
-      token: '',
+      token: "",
     });
-    localStorage.removeItem('auth');
+    localStorage.removeItem("auth");
     // navigate("/login");
   };
   return (
@@ -70,10 +70,34 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <li className="nav-but">
-                    <NavLink onClick={handleLogout} to="/login" className="btn btn-outline-light">
-                      Logout
+                  <li className="nav-item dropdown">
+                    <NavLink
+                      className="nav-link dropdown-toggle"
+                      href="#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      {auth?.user?.name}
                     </NavLink>
+                    <ul className="dropdown-menu dropdown-menu-end">
+                      {" "}
+                      {/* Added dropdown-menu-end */}
+                      <li>
+                        <NavLink to="/dashboard" className="dropdown-item">
+                          Dashboard
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleLogout}
+                          to="/login"
+                          className="dropdown-item"
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
+                    </ul>
                   </li>
                 </>
               )}
