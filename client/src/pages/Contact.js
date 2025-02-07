@@ -62,9 +62,9 @@ const Contact = () => {
             <h3>Contact info</h3>
             <div className="infoBox">
               <div>
-                <span>
+                {/* <span>
                   <FaLocationDot />
-                </span>
+                </span> */}
                 <p>
                   Ranibazar, Rajshahi <br />
                   Bangladesh
@@ -72,38 +72,38 @@ const Contact = () => {
               </div>
 
               <div>
-                <span>
+                {/* <span>
                   <MdEmail />
-                </span>
+                </span> */}
                 <a href="mailto:example@example.com">example@example.com</a>
               </div>
 
               <div>
-                <span>
+                {/* <span>
                   <FaPhone />
-                </span>
+                </span> */}
                 <a href="tel:+919876543210">+91 987 654 3210</a>
               </div>
 
               <ul className="sci">
                 <li>
                   <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                    <FaFacebook />
+                    {/* <FaFacebook /> */}
                   </a>
                 </li>
                 <li>
                   <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-                    <FaTwitter />
+                    {/* <FaTwitter /> */}
                   </a>
                 </li>
                 <li>
                   <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                    <FaLinkedin />
+                    {/* <FaLinkedin /> */}
                   </a>
                 </li>
                 <li>
                   <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                    <FaInstagram />
+                    {/* <FaInstagram /> */}
                   </a>
                 </li>
               </ul>
