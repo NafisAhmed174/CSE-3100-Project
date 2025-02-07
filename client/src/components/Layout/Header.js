@@ -1,8 +1,16 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
+import toast from "react-hot-toast";
+import SearchInput from "../Form/SearchInput";
+import useCategory from "../../hooks/useCategory";
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
+
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
+  const categories = useCategory();
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -10,6 +18,7 @@ const Header = () => {
       token: "",
     });
     localStorage.removeItem("auth");
+    toast.success("Logout Successfully");
     // navigate("/login");
   };
   return (
@@ -44,13 +53,19 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/category" className="nav-link">
+                <NavLink to="/categories" className="nav-link">
                   Category
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/cart" className="nav-link">
-                  Cart (0)
+                <NavLink
+                  to="/cart"
+                  className="nav-link"
+                  style={{ color: "white" }}
+                >
+                  <Badge count={cart?.length} showZero offset={[10, -5]}>
+                    <span style={{ color: "white" }}>Cart</span>
+                  </Badge>
                 </NavLink>
               </li>
             </ul>
@@ -70,39 +85,39 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                <li className="nav-item dropdown">
-                  <NavLink
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    style={{ border: "none" }}
-                  >
-                    {auth?.user?.name}
-                  </NavLink>
-                  <ul className="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <NavLink
-                        to={`/dashboard/${
-                          auth?.user?.role === 1 ? "admin" : "user"
-                        }`}
-                        className="dropdown-item"
-                      >
-                        Dashboard
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        onClick={handleLogout}
-                        to="/login"
-                        className="dropdown-item"
-                      >
-                        Logout
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
-              </>
+                  <li className="nav-item dropdown">
+                    <NavLink
+                      className="nav-link dropdown-toggle"
+                      href="#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      style={{ border: "none" }}
+                    >
+                      {auth?.user?.name}
+                    </NavLink>
+                    <ul className="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <NavLink
+                          to={`/dashboard/${
+                            auth?.user?.role === 1 ? "admin" : "user"
+                          }`}
+                          className="dropdown-item"
+                        >
+                          Dashboard
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleLogout}
+                          to="/login"
+                          className="dropdown-item"
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </li>
+                </>
               )}
             </ul>
           </div>
