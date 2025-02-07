@@ -4,7 +4,6 @@ import { useCart } from "../context/cart";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Layout from "../components/Layout/Layout";
-import { AiOutlineReload } from "react-icons/ai";
 import "../styles/Homepage.css";
 
 const HomePage = () => {
@@ -62,7 +61,7 @@ const HomePage = () => {
   };
 
   return (
-    <Layout title={"All Products - Best Offers"}>
+    <Layout title={"All Products"}>
       <div className="container-fluid row mt-3 home-page">
         {/* Product Listing */}
         <div className="col-md-12">
@@ -128,7 +127,7 @@ const HomePage = () => {
                   "Loading ..."
                 ) : (
                   <>
-                    Load More <AiOutlineReload />
+                    <button className="btn loadmore">Load More 🔄</button>
                   </>
                 )}
               </button>

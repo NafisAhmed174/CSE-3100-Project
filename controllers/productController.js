@@ -5,6 +5,11 @@ import orderModel from "../models/orderModel.js";
 import fs from "fs";
 import slugify from "slugify";
 import dotenv from "dotenv";
+import SSLCommerzPayment from 'sslcommerz-lts'
+
+const store_id = process.env.SSLCOMMERZ_STORE_ID;
+const store_passwd = process.env.SSLCOMMERZ_STORE_PASSWORD;
+const is_live = false; // 
 
 dotenv.config();
 
@@ -332,3 +337,52 @@ export const productCategoryController = async (req, res) => {
 
 
 //payment
+export const sslPaymentController = async (req, res) => {
+  try {
+    const { cart, user } = req.body;
+
+    let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
+
+    const transactionId = `txn_${new Date().getTime()}`;
+
+    const data = {
+      total_amount: totalAmount,
+      currency: "BDT",
+      tran_id: transactionId,
+      success_url: `${process.env.BASE_URL}/api/v1/product/payment-success`,
+      fail_url: `${process.env.BASE_URL}/api/v1/product/payment-fail`,
+      cancel_url: `${process.env.BASE_URL}/api/v1/product/payment-cancel`,
+      ipn_url: `${process.env.BASE_URL}/api/v1/product/ipn`,
+      shipping_method: "Courier",
+      product_name: "MobileShop BD Order",
+      product_category: "Mobile Phones",
+      product_profile: "general",
+      cus_name: user.name,
+      cus_email: user.email,
+      cus_add1: user.address,
+      cus_city: "Dhaka",
+      cus_country: "Bangladesh",
+      cus_phone: user.phone,
+    };
+
+    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+    sslcz.init(data).then((apiResponse) => {
+      let GatewayPageURL = apiResponse.GatewayPageURL;
+      res.status(200).json({ success: true, url: GatewayPageURL });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "SSLCommerz payment error", error });
+  }
+};
+export const sslSuccessController = (req, res) => {
+  return res.redirect("/dashboard/user/orders");
+};
+
+export const sslFailController = (req, res) => {
+  return res.redirect("/cart");
+};
+
+export const sslCancelController = (req, res) => {
+  return res.redirect("/cart");
+};
