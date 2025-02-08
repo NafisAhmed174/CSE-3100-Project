@@ -1,9 +1,5 @@
 import express from "express";
 import {
-  sslPaymentController, 
-  sslSuccessController, 
-  sslFailController, 
-  sslCancelController, 
   createProductController,
   deleteProductController,
   getProductController,
@@ -72,10 +68,6 @@ router.get("/product-category/:slug", productCategoryController);
 //payments routes
 //token
 // router.get("/braintree/token", braintreeTokenController);
-router.post("/ssl-payment", sslPaymentController);
-router.post("/payment-success", sslSuccessController);
-router.post("/payment-fail", sslFailController);
-router.post("/payment-cancel", sslCancelController);
 
 //payments
 // router.post("/braintree/payment", requireSignIn, brainTreePaymentController);

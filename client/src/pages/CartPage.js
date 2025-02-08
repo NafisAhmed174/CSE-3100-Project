@@ -1,85 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import { AiFillWarning } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
 
 const CartPage = () => {
-  const [auth] = useAuth();
+  const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
+  // const [clientToken, setClientToken] = useState("");
+  const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Calculate total price
+  //total price
   const totalPrice = () => {
-    let total = 0;
-    cart?.forEach((item) => {
-      total += item.price;
-    });
-    return total.toLocaleString("en-BD", {
-      style: "currency",
-      currency: "BDT",
-    });
-  };
-
-  // Remove item from cart
-  const removeCartItem = (pid) => {
-    let myCart = cart.filter((item) => item._id !== pid);
-    setCart(myCart);
-    localStorage.setItem("cart", JSON.stringify(myCart));
-  };
-
-  // Handle SSLCommerz Payment
-  const handlePayment = async () => {
-    if (!auth?.user?.address) {
-      toast.error("Please update your address before making a payment!");
-      return;
-    }
-
-    setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5000/api/payment/ssl-payment", {
-        cart,
-        user: auth?.user,
-        amount: cart.reduce((sum, item) => sum + item.price, 0),
+      let total = 0;
+      cart?.map((item) => {
+        total = total + item.price;
       });
-
-      if (data?.GatewayPageURL) {
-        window.location.href = data.GatewayPageURL; // Redirect to SSLCommerz payment page
-      } else {
-        toast.error("Failed to initiate payment");
-      }
+      return total.toLocaleString("en-BD", {
+        style: "currency",
+        currency: "BDT",
+      });
     } catch (error) {
-      console.error(error);
-      toast.error("Payment failed. Try again!");
-    } finally {
-      setLoading(false);
+      console.log(error);
     }
   };
-
+  //detele item
+  const removeCartItem = (pid) => {
+    try {
+      let myCart = [...cart];
+      let index = myCart.findIndex((item) => item._id === pid);
+      myCart.splice(index, 1);
+      setCart(myCart);
+      localStorage.setItem("cart", JSON.stringify(myCart));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout>
-      <div className="cart-page">
+      <div className=" cart-page">
         <div className="row">
           <div className="col-md-12">
             <h1 className="text-center bg-light p-2 mb-1">
-              {!auth?.user ? "Hello Guest" : `Hello ${auth?.user?.name}`}
+              {!auth?.user
+                ? "Hello Guest"
+                : `Hello  ${auth?.token && auth?.user?.name}`}
               <p className="text-center">
                 {cart?.length
-                  ? `You have ${cart.length} items in your cart`
-                  : "Your Cart Is Empty"}
+                  ? `You Have ${cart.length} items in your cart ${
+                      auth?.token ? "" : "please login to checkout !"
+                    }`
+                  : " Your Cart Is Empty"}
               </p>
             </h1>
           </div>
         </div>
-
-        <div className="container">
-          <div className="row">
-            {/* Cart Items */}
-            <div className="col-md-7 p-0 m-0">
+        <div className="container ">
+          <div className="row ">
+            <div className="col-md-7  p-0 m-0">
               {cart?.map((p) => (
                 <div className="row card flex-row" key={p._id}>
                   <div className="col-md-4">
@@ -94,30 +79,33 @@ const CartPage = () => {
                   <div className="col-md-4">
                     <p>{p.name}</p>
                     <p>{p.description.substring(0, 30)}</p>
-                    <p>Price : {p.price} BDT</p>
+                    <p>Price : {p.price}</p>
                   </div>
                   <div className="col-md-4 cart-remove-btn">
-                    <button className="btn btn-danger" onClick={() => removeCartItem(p._id)}>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => removeCartItem(p._id)}
+                    >
                       Remove
                     </button>
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* Cart Summary */}
-            <div className="col-md-5 cart-summary">
+            <div className="col-md-5 cart-summary ">
               <h2>Cart Summary</h2>
               <p>Total | Checkout | Payment</p>
               <hr />
-              <h4>Total: {totalPrice()}</h4>
-
+              <h4>Total : {totalPrice()} </h4>
               {auth?.user?.address ? (
                 <>
                   <div className="mb-3">
                     <h4>Current Address</h4>
                     <h5>{auth?.user?.address}</h5>
-                    <button className="btn btn-outline-warning" onClick={() => navigate("/dashboard/user/profile")}>
+                    <button
+                      className="btn btn-outline-warning"
+                      onClick={() => navigate("/dashboard/user/profile")}
+                    >
                       Update Address
                     </button>
                   </div>
@@ -125,25 +113,25 @@ const CartPage = () => {
               ) : (
                 <div className="mb-3">
                   {auth?.token ? (
-                    <button className="btn btn-outline-warning" onClick={() => navigate("/dashboard/user/profile")}>
+                    <button
+                      className="btn btn-outline-warning"
+                      onClick={() => navigate("/dashboard/user/profile")}
+                    >
                       Update Address
                     </button>
                   ) : (
                     <button
                       className="btn btn-outline-warning"
-                      onClick={() => navigate("/login", { state: "/cart" })}
+                      onClick={() =>
+                        navigate("/login", {
+                          state: "/cart",
+                        })
+                      }
                     >
-                      Please Login to Checkout
+                      Plase Login to checkout
                     </button>
                   )}
                 </div>
-              )}
-
-              {/* SSLCommerz Payment Button */}
-              {auth?.token && cart?.length > 0 && (
-                <button className="btn btn-primary mt-3" onClick={handlePayment} disabled={loading}>
-                  {loading ? "Processing..." : "Make Payment"}
-                </button>
               )}
             </div>
           </div>
